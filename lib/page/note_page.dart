@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:tekartik_notepad_sqflite_app/main.dart';
 import 'package:tekartik_notepad_sqflite_app/model/model.dart';
 import 'package:tekartik_notepad_sqflite_app/page/edit_page.dart';
+import 'package:tekartik_notepad_sqflite_app/page/map.dart';
 
 class NotePage extends StatefulWidget {
   final int? noteId;
@@ -11,7 +12,6 @@ class NotePage extends StatefulWidget {
   const NotePage({Key? key, required this.noteId}) : super(key: key);
 
   @override
-  // ignore: library_private_types_in_public_api
   _NotePageState createState() => _NotePageState();
 }
 
@@ -35,39 +35,46 @@ class _NotePageState extends State<NotePage> {
         }
 
         return Scaffold(
-            appBar: AppBar(
-              title: Text(
-                'Note',
-              ),
-              actions: <Widget>[
-                if (note != null)
-                  IconButton(
-                    icon: Icon(Icons.edit),
-                    onPressed: () {
-                      edit();
-                    },
-                  ),
-              ],
-            ),
-            body: (note == null)
-                ? Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : GestureDetector(
-                    onTap: () {
-                      edit();
-                    },
-                    child: ListView(children: <Widget>[
+          appBar: AppBar(
+            title: Text('Note'),
+            actions: <Widget>[
+              if (note != null)
+                IconButton(
+                  icon: Icon(Icons.edit),
+                  onPressed: () {
+                    edit();
+                  },
+                ),
+            ],
+          ),
+          body: (note == null)
+              ? Center(
+                  child: CircularProgressIndicator(),
+                )
+              : GestureDetector(
+                  onTap: () {
+                    edit();
+                  },
+                  child: ListView(
+                    children: <Widget>[
                       ListTile(
-                          title: Text(
-                        note.nom.v!,
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      )),
+                        title: Text(
+                          note.nom.v!,
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
                       ListTile(title: Text(note.prenom.v ?? '')),
                       ListTile(title: Text(note.adresse.v ?? '')),
-                      ListTile(title: Text(note.numero.v ?? ''))
-                    ]),
-                  ));
+                      ListTile(title: Text(note.numero.v ?? '')),
+                      Container(
+                        height: 500,
+                        width: 400,
+                        child: MapCart(), // Intégrer la carte ici
+                      ),
+                    ],
+                  ),
+                ),
+        );
       },
     );
   }

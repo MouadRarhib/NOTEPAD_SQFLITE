@@ -8,6 +8,7 @@ import 'package:tekartik_app_platform/app_platform.dart';
 import 'package:tekartik_common_utils/common_utils_import.dart';
 import 'package:tekartik_notepad_sqflite_app/page/list_page.dart';
 import 'package:tekartik_notepad_sqflite_app/provider/note_provider.dart';
+import 'package:tekartik_notepad_sqflite_app/page/map.dart';
 
 late DbNoteProvider noteProvider;
 

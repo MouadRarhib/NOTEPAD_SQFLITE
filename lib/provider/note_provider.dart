@@ -2,6 +2,9 @@ import 'package:tekartik_app_flutter_sqflite/sqflite.dart';
 import 'package:tekartik_common_utils/common_utils_import.dart';
 import 'package:tekartik_notepad_sqflite_app/model/model.dart';
 import 'package:tekartik_notepad_sqflite_app/model/model_constant.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:location/location.dart';
+import 'package:latlong2/latlong.dart';
 
 DbNote snapshotToNote(Map<String, Object?> snapshot) {
   return DbNote()..fromMap(snapshot);
@@ -224,5 +227,18 @@ class DbNoteProvider {
 
   Future deleteDb() async {
     await dbFactory.deleteDatabase(await fixPath(dbName));
+  }
+
+  Future<LatLng?> geocodeAddress(String address) async {
+    try {
+      final locations = await locationFromAddress(address);
+      if (locations.isNotEmpty) {
+        final location = locations.first;
+        return LatLng(location.latitude, location.longitude);
+      }
+    } catch (e) {
+      print('Erreur de géocodification : $e');
+    }
+    return null;
   }
 }
